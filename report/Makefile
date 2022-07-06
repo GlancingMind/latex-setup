@@ -9,17 +9,21 @@ SOURCE_DATE_EPOCH=$(date -d "2022-05-22" +%s)
 
 all: report
 
+# NOTE -pretex="\pdfvariable suppressoptionalinfo 512\relax"
+# removes the ever changing doc-ID from the xref table for immutability
 report: report.tex
 	latexmk -pdf \
 		-lualatex \
 		-interaction=nonstopmode \
-		# Remove ever changing doc-ID from the xref table for immutability
 		-pretex="\pdfvariable suppressoptionalinfo 512\relax" \
 		-usepretex \
 		-use-make $?
 
 clean: .execute-always
 	latexmk -c
+
+clean-all:
+	latexmk -C
 
 .execute-always:
 
